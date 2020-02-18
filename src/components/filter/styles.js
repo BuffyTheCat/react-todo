@@ -20,6 +20,8 @@ const Filters = styled.div`
     display: flex;
 
     button {
+        outline: none;
+
         &:not(:last-of-type) {
             margin-right: 8px;
         }
