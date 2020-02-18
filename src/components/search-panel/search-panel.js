@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Search } from './styles';
+import Filter from '../filter/filter'
 
 export default class SearchPanel extends Component {
     state = {
@@ -13,7 +14,7 @@ export default class SearchPanel extends Component {
     }
 
     render() {
-
+        const {filter, onFilterChange} = this.props;
 
         return (
             <Search>
@@ -22,11 +23,7 @@ export default class SearchPanel extends Component {
                     value={this.state.term}
                     onChange={this.onSearchChange}
                 />
-                <div>
-                    <button type="button">All</button>
-                    <button type="button">Active</button>
-                    <button type="button">Done</button>
-                </div>
+                <Filter filter={filter} onFilterChange={onFilterChange} />
             </Search>
         );
     }

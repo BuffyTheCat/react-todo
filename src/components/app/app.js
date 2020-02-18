@@ -3,6 +3,8 @@ import AppHeader from '../../components/app-header/app-header';
 import SearchPanel from '../../components/search-panel/search-panel';
 import TodoList from '../../components/todo-list/todo-list';
 import ItemAddForm from '../../components/item-add-form/item-add-form';
+import { Main } from './styles';
+
 
 export default class App extends Component {
     maxId = 100;
@@ -13,7 +15,8 @@ export default class App extends Component {
             this.createTodoElement('Dress'),
             this.createTodoElement('Go to work')
         ],
-        term: ''
+        term: '',
+        filter: 'all'
     }
 
     toggleProperty(arr, id, propName) {
@@ -52,6 +55,10 @@ export default class App extends Component {
         })
     }
 
+    filtrate = (name) => {
+        console.log(1);
+    }
+
     removeItem = (id) => {
         this.setState(({todoData}) => {
             const idx = todoData.findIndex((el) => el.id === id);
@@ -85,20 +92,42 @@ export default class App extends Component {
         })
     }
 
+    filter(items, filter) {
+        switch(filter) {
+            case 'all':
+                return items;
+            case 'active':
+                return items.filter((item) => !item.done);
+            case 'done':
+                return items.filter((item) => item.done);
+            default:
+                return items;
+        }
+    }
+
     onSearchChange = (term) => {
         this.setState({term});
+    }
+
+
+    onFilterChange = (filter) => {
+        this.setState({filter});
     }
 
     render() {
         const doneTodo = this.state.todoData.filter((el) => el.done).length;
         const todo = this.state.todoData.length - doneTodo;
-        const { todoData, term } = this.state;
-        const visibleItems = this.search(todoData, term);
+        const { todoData, term, filter } = this.state;
+        const visibleItems = this.filter(this.search(todoData, term), filter);
 
         return (
-            <div>
+            <Main>
                 <AppHeader pageTitle='Todo list' todo={todo} doneTodo={doneTodo} />
-                <SearchPanel onSearchChange={this.onSearchChange} />
+                <SearchPanel 
+                    onSearchChange={this.onSearchChange} 
+                    onFilterChange={this.onFilterChange} 
+                    filter={filter}    
+                />
                 <TodoList 
                     todos={visibleItems}
                     onDelited={this.removeItem}
@@ -106,7 +135,7 @@ export default class App extends Component {
                     onToggleDone={this.onToggleDone}
                 />
                 <ItemAddForm addItem={this.addItem} />
-            </div>
+            </Main>
         );
     }
 }
