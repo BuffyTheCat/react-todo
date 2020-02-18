@@ -9,10 +9,11 @@ export default class App extends Component {
     state = {
         todoData: [
             this.createTodoElement('Drink water'),
-            this.createTodoElement('Drink water 2'),
-            this.createTodoElement('Drink water 3'),
-            this.createTodoElement('Drink water 4')
-        ]
+            this.createTodoElement('Make dinner'),
+            this.createTodoElement('Dress'),
+            this.createTodoElement('Go to work')
+        ],
+        term: ''
     }
 
     toggleProperty(arr, id, propName) {
@@ -75,16 +76,31 @@ export default class App extends Component {
         });
     }
 
+    search (items, term) {
+        if (term.lenght === 0) {
+            return items;
+        }
+        return items.filter((item) => {
+            return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1;
+        })
+    }
+
+    onSearchChange = (term) => {
+        this.setState({term});
+    }
+
     render() {
         const doneTodo = this.state.todoData.filter((el) => el.done).length;
         const todo = this.state.todoData.length - doneTodo;
+        const { todoData, term } = this.state;
+        const visibleItems = this.search(todoData, term);
 
         return (
             <div>
                 <AppHeader pageTitle='Todo list' todo={todo} doneTodo={doneTodo} />
-                <SearchPanel />
+                <SearchPanel onSearchChange={this.onSearchChange} />
                 <TodoList 
-                    todos={this.state.todoData}
+                    todos={visibleItems}
                     onDelited={this.removeItem}
                     onToggleImportant={this.onToggleImportant}
                     onToggleDone={this.onToggleDone}

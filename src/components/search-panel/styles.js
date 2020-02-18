@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-const Input = styled.input`
- color: red;
+const Search = styled.div`
+    display: flex;
 `;
 
-export { Input };
+export { Search };

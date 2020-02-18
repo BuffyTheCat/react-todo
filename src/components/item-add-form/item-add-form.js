@@ -4,7 +4,7 @@ import { AddWrap } from './styles'
 
 export default class ItemAddForm extends Component {
     state = {
-        text: null
+        text: ''
     }
     
     changeText = (event) => {
