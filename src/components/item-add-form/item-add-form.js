@@ -16,13 +16,20 @@ export default class ItemAddForm extends Component {
         });
     }
 
+    onSubmit = (event) => {
+        event.preventDefault();
+        this.props.addItem(this.state.text);
+    }
+
     render () {
-        const { addItem } = this.props;
-        const { text } = this.state;
         return(
-            <AddWrap>
-                <input onChange={this.changeText} placeholder="add item" />
-                <button onClick={() => addItem(text)}>add</button>
+            <AddWrap onSubmit={this.onSubmit}>
+                <input 
+                    onChange={this.changeText} 
+                    placeholder="add item"
+                    value={this.state.text}
+                />
+                <button type="submit">add</button>
             </AddWrap>
         )
     }

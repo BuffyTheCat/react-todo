@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const AddWrap = styled.div`
+const AddWrap = styled.form`
     display: flex;
 `;
 
